@@ -1,0 +1,24 @@
+//Switch DB
+use DB_Name
+
+//Show all DB
+show dbs
+
+//Creat table and insert data
+db.student.insert({"Name":"Brian", "Age":"28"})
+
+//Select data from table
+db.student.find()
+db.student.find().pretty()
+
+//Show table in a DB
+show collections
+
+//Remove data from table
+db.student.remove({"Name":"Brian"})
+
+//Drop table
+db.student.drop()
+
+//Drop DB
+db.dropDatabase()

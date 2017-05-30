@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>SaveTube</title>
+
+    <!-- Bootstrap core CSS -->
+    {% include "html_reference.html" %}
+</head>
+
+<body>
+<div class="DialogMask" style="display:none" ></div>
+<nav id="header" class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+    <i class="navbar-toggler navbar-toggler-left" data-toggle="collapse"
+       data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+       aria-label="Toggle navigation">
+        <i class="fa fa-align-justify" title="Menu"></i>
+    </i>
+    <i class="navbar-toggler navbar-toggler-right searchCollapse" data-toggle="collapse"
+       data-target="#searchCollapse" aria-controls="searchCollapse" aria-expanded="false"
+       aria-label="Toggle navigation">
+        <i class="fa fa-search" title="Search"></i>
+    </i>
+
+    <div class="navbar-toggler-right userCollapse dropdown" aria-expanded="false">
+        <span data-toggle="dropdown" href="#"><i class="fa fa-user" title="User"></i></span>
+
+        {% if session['account'] %}
+        <div class="dropdown-menu">
+            <div class="panel panel-login">
+                <center>
+                    <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
+                         name="aboutme" width="140" height="140" border="0" class="rounded-circle"></a>
+                    <h3 class="media-heading">{{session['account']}}</h3>
+                    <span class="label label-warning">Brian@gmail.com</span>
+                </center>
+                <hr>
+                <center>
+                    <p class="text-left"><strong>Bio: </strong><br>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem dui, tempor sit amet
+                        commodo a, vulputate vel tellus.</p>
+                    <br>
+                </center>
+                <center>
+                    <form id="logout-form" action="/logout" method="post" role="form">
+                        <div class="form-group">
+                            <input type="submit" name="logout-submit" id="logout-submit"
+                                   tabindex="4" class="form-control btn btn-login"
+                                   value="Logout">
+                        </div>
+                    </form>
+                </center>
+            </div>
+        </div>
+        {% else %}
+        <div class="dropdown-menu">
+            <div class="panel panel-login">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col col-xs-6 tabs">
+                            <a href="#" class="active" id="login-form-link">
+                                <div class="login active-tab">LOGIN</div>
+                            </a>
+                        </div>
+                        <div class="col col-xs-6 tabs">
+                            <a href="#" id="register-form-link">
+                                <div class="register">REGISTER</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form id="login-form" action="/login" method="post" role="form" style="display: block;">
+                                <div class="form-group">
+                                    <input type="text" id="account" name="InputAccount" tabindex="1"
+                                           class="form-control"
+                                           placeholder="Account Name" value="" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" id="password" name="InputPassword" tabindex="2"
+                                           class="form-control" placeholder="Password" required>
+                                </div>
+                                <div class="col-xs-6 form-group pull-left checkbox">
+                                    <input id="checkbox1" type="checkbox" name="remember">
+                                    <label for="checkbox1">Remember Me</label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" id="login-submit" name="login-submit" tabindex="4"
+                                           class="form-control btn btn-login" value="Login">
+                                </div>
+                            </form>
+                            <form id="register-form" action="/register" method="post" role="form"
+                                  style="display: none;">
+                                <div class="form-group">
+                                    <input type="text" id="reg-account" name="reg-InputAccount" tabindex="1"
+                                           class="form-control"
+                                           placeholder="Username" value="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" id="reg-email" name="reg-InputEmail" tabindex="1"
+                                           class="form-control"
+                                           placeholder="Email Address" value="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" id="reg-password" name="reg-InputPassword" tabindex="2"
+                                           class="form-control" placeholder="Password">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" id="confirm-password" name="confirm-password" tabindex="2"
+                                           class="form-control" placeholder="Confirm Password">
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <input type="submit" name="register-submit" id="register-submit"
+                                               tabindex="4" class="form-control btn btn-register"
+                                               value="Register">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <div class="navbar-brand logo lg-logo" style="font-family: 'Audiowide', cursive;" href="/">SaveTube</div>
+    <div class="navbar-brand logo xs-logo" style="font-family: 'Audiowide', cursive;" href="/">SaveTube</div>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/favorite">Favorite<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Statistic<span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Cart</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+        </ul>
+    </div>
+    <div class="collapse navbar-collapse" id="searchCollapse">
+        <form action="/results" style="width:100%; margin-right:50px;">
+            <div class="input-group">
+                <span class="input-group-addon btn-common"><i class="fa fa-search" aria-hidden="true"></i></span>
+                <input type="text" class="form-control" placeholder="Search for ..." name="search">
+            </div>
+        </form>
+    </div>
+
+</nav>
+
+<div id="content" class="custom-container container">
+    {% block content %}
+
+    {% endblock %}
+</div>
+
+
+<footer id="footer">
+    <div class="container">
+        <p>© 2017 - All Rights with SaveTube</p>
+    </div>
+</footer>
+
+<div id="to-top" class="btn btn-xs btn-inverse">
+    <span class="sr-only">Toggle to Top Navigation</span>
+    <i class="fa fa-chevron-up"></i>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if all_item|length > 0 %}
+<div class="row result">
+    <div class="result-bar">
+        <p class="lead">Search results for <strong class="text-danger">{{search}}</strong></p>
+    </div>
+    {% for item in range(0,all_item|length-1) %}
+    {% if '{}'.format(item) in all_item %}
+    {% if all_item.get('{}'.format(item))['img'] != '' %}
+    <div class="col video-card">
+        <form action="/favorite" method="post">
+            <input type="hidden" name="tag" value="{{search}}">
+            <input type="hidden" name="title" value="{{all_item.get('{}'.format(item))['title']}}">
+            <input type="hidden" name="link" value="{{all_item.get('{}'.format(item))['link']}}">
+            <input type="hidden" name="img" value="{{all_item.get('{}'.format(item))['img']}}">
+            <input type="hidden" name="time" value="{{all_item.get('{}'.format(item))['time']}}">
+            <input type="hidden" name="return_url" value="{{return_url}}">
+            {% if all_item.get('{}'.format(item))['favorite'] == 0 %}
+            <button type="submit" class="favorite_btn" data-toggle="tooltip" data-animation="false" data-placement="top"
+                    title="add to favorites">
+                <i class="fa fa-heart-o" aria-hidden="true"></i>
+            </button>
+            {% else %}
+            <button type="submit" class="favorite_btn active" data-toggle="tooltip" data-animation="false" data-placement="top"
+                    title="remove from favorites">
+                <i class="fa fa-heart-o" aria-hidden="true"></i>
+            </button>
+            {% endif %}
+        </form>
+
+        <div class="img-wrapper">
+            <img data-toggle="modal" data-target="#exampleModal"
+             src="{{all_item.get('{}'.format(item))['img']}}"
+             alt="Card image cap"
+             onclick="showModal('{{all_item.get('{}'.format(item))['title']}}', '{{all_item.get('{}'.format(item))['link']}}');">
+        </div>
+
+        <div class="video-info">
+            <div class="row card-func">
+                <div class="col">
+                    <small class="text-muted">{{all_item.get('{}'.format(item))['time']}}</small>
+                </div>
+                <div class="col">
+                    <form action="/download" target="_blank" style="text-align: right">
+                        <button type="submit" class="btn btn-sm btn_mp3" name="value"
+                                value="MP3&{{all_item.get('{}'.format(item))['link']}}">MP3
+                        </button>
+                        <button type="submit" class="btn btn-sm btn_mp4" name="value"
+                                value="MP4&{{all_item.get('{}'.format(item))['link']}}">MP4
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="card-title">
+                <h8>{{all_item.get('{}'.format(item))['title']}}</h8>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% if all_page.get('2') != None%}
+<center>
+    <button type="button" class="lazyLoading" postVal="{{all_page.get('2')}}&current_page=2">
+        <img style="width:50px; display:none" src="{{url_for('static',filename='img/ellipsis.gif')}}">
+        More Videos
+    </button>
+</center>
+{% endif %}
+
+<div class="row" style="display:none">
+    <div class="col col-xs-4">
+    </div>
+    <div class="col col-xs-4">
+        <ul class="pagination">
+            <li class="page-item active">
+                <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
+            </li>
+            {% for page in range(0,8) %}
+            {% if '{}'.format(page) in all_page %}
+            <li class="page-item"><a class="page-link"
+                                     href="{{all_page.get('{}'.format(page))}}&current_page={{page}}">{{page}}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+            <li class="page-item">
+                <a class="page-link" href="{{all_page.get('2')}}&current_page=2" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col col-xs-4">
+    </div>
+</div>
+{% else %}
+<div class="row result">
+    <div class="result-bar">
+        <p class="lead">Cannot found results for <strong class="text-danger">{{search}}</strong></p>
+    </div>
+</div>
+{% endif %}
+
+<div id="youtubeModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header modal-header-video">
+                <h6 class="modal-title" id="myLargeModalLabel"></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="yt-player" class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="" allowfullscreen="allowfullscreen"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

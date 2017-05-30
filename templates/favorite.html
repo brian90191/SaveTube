@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if user_video.count() > 0 %}
+<div class="row result">
+    <div class="result-bar">
+        <p class="lead">My favorite list</p>
+    </div>
+
+    <div class="favorite_tags">
+        {% for fav_tag in favorite_tags|sort() %}
+        <button class="success active">{{fav_tag}}</button>
+        {% endfor %}
+    </div>
+
+    {% for video in user_video %}
+    <div class="col video-card" tag="{{video.tag}}">
+        <form action="/favorite" method="post">
+            <input type="hidden" name="tag" value="">
+            <input type="hidden" name="title" value="{{video.title}}">
+            <input type="hidden" name="link" value="{{video.link}}">
+            <input type="hidden" name="img" value="{{video.img}}">
+            <input type="hidden" name="time" value="{{video.time}}">
+            <input type="hidden" name="return_url" value="/favorite">
+            <button type="submit" class="favorite_btn active" data-toggle="tooltip" data-animation="false" data-placement="top" title="remove from favorites">
+                <i class="fa fa-heart-o" aria-hidden="true"></i>
+            </button>
+        </form>
+
+        <div class="img-wrapper">
+            <img class="rounded" data-toggle="modal" data-target="#exampleModal"
+             src="{{video.img}}"
+             alt="Card image cap" width="246" height="138"
+             onclick="showModal('{{video.title}}', '{{video.link}}');">
+        </div>
+
+        <div class="video-info">
+            <div class="row card-func">
+                <div class="col">
+                    <small class="text-muted">{{video.time}}</small>
+                </div>
+                <div class="col">
+                    <form action="/download" target="_blank" style="text-align: right">
+                        <button type="submit" class="btn btn-sm btn_mp3" name="value"
+                                value="MP3&{{video.link}}">MP3
+                        </button>
+                        <button type="submit" class="btn btn-sm btn_mp4" name="value"
+                                value="MP4&{{video.link}}">MP4
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="card-title">
+                <h8>{{video.title}}</h8>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="row result">
+    <div class="result-bar">
+        <p class="lead">Cannot found your favorite video.</p>
+    </div>
+</div>
+{% endif %}
+
+<div id="youtubeModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header modal-header-video">
+                <h6 class="modal-title" id="myLargeModalLabel"></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="yt-player" class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="" allowfullscreen="allowfullscreen"></iframe>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

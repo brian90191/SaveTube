@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if fail_msg is defined %}
+<div class="login-notice">
+    <div class="oaerror danger">
+        <strong>{{fail_msg}}</strong>
+    </div>
+</div>
+{% endif %}
+
+{% if success_msg is defined %}
+<div class="login-notice">
+    <div class="oaerror success">
+        <strong>{{success_msg}}</strong>
+    </div>
+</div>
+{% endif %}
+
+{% if session['account'] %}
+<div class="login-notice">
+    <div class="oaerror success">
+        <strong>Welcome</strong> {{session['account']}}
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
